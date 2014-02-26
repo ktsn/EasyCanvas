@@ -31,51 +31,63 @@ class EasyCanvas
     @setLineCap("round")
 
     @$listener = $("<div class='ec-listener'></div>")
-    .mousedown(@beginFreeHand)
-    .mousemove(@moveFreeHand)
-    .mouseup(@endFreeHand)
+    .mousedown(@beginDrag)
+    .mousemove(@moveDrag)
+    .mouseup(@endDrag)
     .appendTo(@$container)
+
+  ###
+    Canvas Listener
+  ###
+
+  beginDrag: (e) =>
+    return if @dragging
+
+    @dragging = true
+
+    canvas_rect = e.target.getBoundingClientRect()
+    mouse_x = e.clientX - canvas_rect.left
+    mouse_y = e.clientY - canvas_rect.top
+
+    @beginFreeHand(mouse_x, mouse_y)
+
+  moveDrag: (e) =>
+    return if !@dragging
+
+    canvas_rect = e.target.getBoundingClientRect()
+    mouse_x = e.clientX - canvas_rect.left
+    mouse_y = e.clientY - canvas_rect.top
+
+    @moveFreeHand(mouse_x, mouse_y)
+
+  endDrag: (e) =>
+    return if !@dragging
+
+    @endFreeHand()
+
+    @dragging = false
 
   ###
     Drawing
   ###
 
-  beginFreeHand: (e) =>
-    if @dragging then return
-
+  beginFreeHand: (x, y) ->
     @realtime_ctx.save()
     @realtime_ctx.globalAlpha *= 0.5
-
-    canvas_rect = e.target.getBoundingClientRect()
-    mouse_x = e.clientX - canvas_rect.left
-    mouse_y = e.clientY - canvas_rect.top
-
     @realtime_ctx.beginPath()
-    @realtime_ctx.moveTo(mouse_x, mouse_y)
+    @realtime_ctx.moveTo(x, y)
 
     @mutable_ctx.beginPath()
-    @mutable_ctx.moveTo(mouse_x, mouse_y)
+    @mutable_ctx.moveTo(x, y)
 
-    @dragging = true
-
-  moveFreeHand: (e) =>
-    if !@dragging then return
-
-    canvas_rect = e.target.getBoundingClientRect()
-    mouse_x = e.clientX - canvas_rect.left
-    mouse_y = e.clientY - canvas_rect.top
-
+  moveFreeHand: (x, y) ->
     @realtime_ctx.clearRect(0, 0, @$realtime_canvas[0].width, @$realtime_canvas[0].height)
-    @realtime_ctx.lineTo(mouse_x, mouse_y)
+    @realtime_ctx.lineTo(x, y)
     @realtime_ctx.stroke()
 
-    @mutable_ctx.lineTo(mouse_x, mouse_y)
+    @mutable_ctx.lineTo(x, y)
 
-  endFreeHand: (e) =>
-    if !@dragging then return
-
-    @dragging = false
-
+  endFreeHand: () ->
     @realtime_ctx.clearRect(0, 0, @$realtime_canvas[0].width, @$realtime_canvas[0].height)
     @mutable_ctx.stroke()
 
