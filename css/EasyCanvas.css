@@ -1,0 +1,15 @@
+.ec-container {
+    position: relative;
+}
+
+.ec-canvas,
+.ec-listener {
+    left: 0;
+    position: absolute;
+    top: 0;
+}
+
+.ec-listener {
+    height: 100%;
+    width: 100%;
+}

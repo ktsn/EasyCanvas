@@ -1,0 +1,20 @@
+{
+  "name": "EasyCanvas",
+  "version": "0.0.0",
+  "description": "EasyCanvas allows you to write figures on a Canvas easily.",
+  "main": "build/EasyCanvas.js",
+  "scripts": {
+    "build": "coffee -bc -o ./build ./src/*.coffee",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "keywords": [
+    "Canvas",
+    "HTML5"
+  ],
+  "author": "katashin",
+  "license": "BSD",
+  "devDependencies": {
+    "coffee-script": "~1.7.1"
+  }
+}
