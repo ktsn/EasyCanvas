@@ -167,6 +167,8 @@ class EasyCanvas
     @mutable_ctx.restore()
     @realtime_ctx.restore()
 
+    @onDrawEnd(@$mutable_canvas)
+
   clearDrawing: () ->
     @allClear(@$mutable_canvas)
     @onClear(@$mutable_canvas)
