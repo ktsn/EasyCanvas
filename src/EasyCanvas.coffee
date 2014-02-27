@@ -2,6 +2,10 @@
   Dependent: jQuery
 ###
 
+EasyCanvasDrawMode =
+  FreeHand: "freehand"
+  Eraser: "eraser"
+
 class EasyCanvas
   config:
     draw:
@@ -21,6 +25,7 @@ class EasyCanvas
   $listener: null
 
   dragging: false
+  mode: EasyCanvasDrawMode.FreeHand
 
   constructor: (@$container) ->
     @$container.addClass("ec-container")
@@ -57,7 +62,12 @@ class EasyCanvas
     mouse_x = (if e.originalEvent.touches then e.originalEvent.touches[0].clientX else e.clientX) - rect.left
     mouse_y = (if e.originalEvent.touches then e.originalEvent.touches[0].clientY else e.clientY) - rect.top
 
-    @beginFreeHand(mouse_x, mouse_y)
+    switch @mode
+      when EasyCanvasDrawMode.FreeHand
+        @beginFreeHand(mouse_x, mouse_y)
+      when EasyCanvasDrawMode.Eraser
+        @beginEraser(mouse_x, mouse_y)
+      else
 
   moveDrag: (e) =>
     e.preventDefault()
@@ -67,12 +77,22 @@ class EasyCanvas
     mouse_x = (if e.originalEvent.touches then e.originalEvent.touches[0].clientX else e.clientX) - rect.left
     mouse_y = (if e.originalEvent.touches then e.originalEvent.touches[0].clientY else e.clientY) - rect.top
 
-    @moveFreeHand(mouse_x, mouse_y)
+    switch @mode
+      when EasyCanvasDrawMode.FreeHand
+        @moveFreeHand(mouse_x, mouse_y)
+      when EasyCanvasDrawMode.Eraser
+        @moveEraser(mouse_x, mouse_y)
+      else
 
   endDrag: (e) =>
     return if !@dragging
 
-    @endFreeHand()
+    switch @mode
+      when EasyCanvasDrawMode.FreeHand
+        @endFreeHand()
+      when EasyCanvasDrawMode.Eraser
+        @endEraser()
+      else
 
     @dragging = false
 

@@ -9,11 +9,20 @@
             var easy_canvas = new EasyCanvas($("#test-wrapper"));
             easy_canvas.setStrokeColor("#ff0000");
             easy_canvas.setLineWidth(5);
+
+            $("#draw").click(function(e) {
+                easy_canvas.mode = EasyCanvasDrawMode.FreeHand;
+            });
+            $("#erase").click(function(e) {
+                easy_canvas.mode = EasyCanvasDrawMode.Eraser;
+            });
         });
     </script>
     <title>EasyCanvas Test</title>
 </head>
 <body>
+<button id="draw">Draw</button>
+<button id="erase">Erase</button>
 <div id="test-wrapper">
     Canvas is a heavy-duty fabric.<br>
     Canvas may also refer to:<br>
