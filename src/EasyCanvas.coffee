@@ -6,6 +6,12 @@ class EasyCanvas
   config:
     draw:
       preview_alpha_ratio: 0.5
+    eraser:
+      width: 30
+      preview_stroke_width: 2
+      preview_fill_color: "white"
+      preview_stroke_color: "black"
+
   $container: null
   $mutable_canvas: null
   mutable_ctx: null
@@ -97,6 +103,36 @@ class EasyCanvas
     @realtime_ctx.restore()
 
     @onDrawEnd(@$mutable_canvas)
+
+  beginEraser: (x, y) ->
+    @mutable_ctx.save()
+    @realtime_ctx.save()
+
+    @mutable_ctx.globalCompositeOperation = "destination-out"
+    @mutable_ctx.lineWidth = @config.eraser.width
+    @mutable_ctx.beginPath()
+    @mutable_ctx.moveTo(x, y)
+
+    @realtime_ctx.fillStyle = @config.eraser.preview_fill_color
+    @realtime_ctx.strokeStyle = @config.eraser.preview_stroke_color
+    @realtime_ctx.lineWidth = @config.eraser.preview_stroke_width
+
+  moveEraser: (x, y) ->
+    @mutable_ctx.lineTo(x, y)
+    @mutable_ctx.stroke()
+
+    radius = (@config.eraser.width - @config.eraser.preview_stroke_width) / 2
+    @allClear(@$realtime_canvas)
+    @realtime_ctx.beginPath()
+    @realtime_ctx.arc(x, y, radius, 0, 2 * Math.PI, false)
+    @realtime_ctx.fill()
+    @realtime_ctx.stroke()
+
+  endEraser: () ->
+    @allClear(@$realtime_canvas)
+
+    @mutable_ctx.restore()
+    @realtime_ctx.restore()
 
   allClear: ($canvas) ->
     canvas = $canvas[0]
