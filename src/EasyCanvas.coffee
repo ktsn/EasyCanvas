@@ -169,6 +169,7 @@ class EasyCanvas
 
   clearDrawing: () ->
     @allClear(@$mutable_canvas)
+    @onClear(@$mutable_canvas)
 
   allClear: ($canvas) ->
     canvas = $canvas[0]
@@ -202,4 +203,5 @@ class EasyCanvas
   ###
 
   onDrawEnd: (canvas) ->
+  onClear: (canvas) ->
 
