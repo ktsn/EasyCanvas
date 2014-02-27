@@ -11,10 +11,10 @@
             easy_canvas.setLineWidth(5);
 
             $("#draw").click(function(e) {
-                easy_canvas.mode = EasyCanvasDrawMode.FreeHand;
+                easy_canvas.changeDrawMode(EasyCanvasDrawMode.FreeHand)
             });
             $("#erase").click(function(e) {
-                easy_canvas.mode = EasyCanvasDrawMode.Eraser;
+                easy_canvas.changeDrawMode(EasyCanvasDrawMode.Eraser)
             });
         });
     </script>

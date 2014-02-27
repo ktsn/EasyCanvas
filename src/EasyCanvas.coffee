@@ -25,6 +25,7 @@ class EasyCanvas
   $listener: null
 
   dragging: false
+  mode_schedule: EasyCanvasDrawMode.FreeHand
   mode: EasyCanvasDrawMode.FreeHand
 
   constructor: (@$container) ->
@@ -96,9 +97,18 @@ class EasyCanvas
 
     @dragging = false
 
+    # apply scheduled mode
+    @mode = @mode_schedule
+
   ###
     Drawing
   ###
+
+  changeDrawMode: (mode) ->
+    # to prevent to change mode when the dragging is continuing
+    @mode_schedule = mode
+    return if @dragging
+    @mode = mode
 
   beginFreeHand: (x, y) ->
     @realtime_ctx.save()
