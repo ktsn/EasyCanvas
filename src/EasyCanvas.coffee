@@ -3,6 +3,7 @@
 ###
 
 EasyCanvasDrawMode =
+  Disabled: "disabled"
   FreeHand: "freehand"
   Eraser: "eraser"
 
@@ -98,7 +99,7 @@ class EasyCanvas
     @dragging = false
 
     # apply scheduled mode
-    @mode = @mode_schedule
+    @changeDrawMode(@mode_schedule)
 
   ###
     Drawing
@@ -107,8 +108,14 @@ class EasyCanvas
   changeDrawMode: (mode) ->
     # to prevent to change mode when the dragging is continuing
     @mode_schedule = mode
-    return if @dragging
-    @mode = mode
+
+    if !@dragging
+      @mode = mode
+      if @mode == EasyCanvasDrawMode.Disabled
+        @$listener.hide()
+      else
+        @$listener.show()
+
 
   beginFreeHand: (x, y) ->
     @realtime_ctx.beginPath()
