@@ -160,6 +160,9 @@ class EasyCanvas
     @mutable_ctx.restore()
     @realtime_ctx.restore()
 
+  clearDrawing: () ->
+    @allClear(@$mutable_canvas)
+
   allClear: ($canvas) ->
     canvas = $canvas[0]
     ctx = canvas.getContext("2d")

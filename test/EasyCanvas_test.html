@@ -16,6 +16,9 @@
             $("#erase").click(function(e) {
                 easy_canvas.changeDrawMode(EasyCanvasDrawMode.Eraser)
             });
+            $("#clear").click(function(e) {
+                easy_canvas.clearDrawing()
+            });
         });
     </script>
     <title>EasyCanvas Test</title>
@@ -23,6 +26,7 @@
 <body>
 <button id="draw">Draw</button>
 <button id="erase">Erase</button>
+<button id="clear">Clear</button>
 <div id="test-wrapper">
     Canvas is a heavy-duty fabric.<br>
     Canvas may also refer to:<br>
