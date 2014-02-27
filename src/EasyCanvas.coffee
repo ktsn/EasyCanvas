@@ -3,6 +3,9 @@
 ###
 
 class EasyCanvas
+  config:
+    draw:
+      preview_alpha_ratio: 0.5
   $container: null
   $mutable_canvas: null
   mutable_ctx: null
@@ -73,7 +76,7 @@ class EasyCanvas
 
   beginFreeHand: (x, y) ->
     @realtime_ctx.save()
-    @realtime_ctx.globalAlpha *= 0.5
+    @realtime_ctx.globalAlpha *= @config.draw.preview_alpha_ratio
     @realtime_ctx.beginPath()
     @realtime_ctx.moveTo(x, y)
 
