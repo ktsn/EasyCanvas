@@ -111,8 +111,6 @@ class EasyCanvas
     @mode = mode
 
   beginFreeHand: (x, y) ->
-    @realtime_ctx.save()
-    @realtime_ctx.globalAlpha *= @config.draw.preview_alpha_ratio
     @realtime_ctx.beginPath()
     @realtime_ctx.moveTo(x, y)
 
@@ -129,8 +127,6 @@ class EasyCanvas
   endFreeHand: () ->
     @allClear(@$realtime_canvas)
     @mutable_ctx.stroke()
-
-    @realtime_ctx.restore()
 
     @onDrawEnd(@$mutable_canvas)
 
