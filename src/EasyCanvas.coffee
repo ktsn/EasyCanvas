@@ -84,19 +84,24 @@ class EasyCanvas
     @mutable_ctx.moveTo(x, y)
 
   moveFreeHand: (x, y) ->
-    @realtime_ctx.clearRect(0, 0, @$realtime_canvas[0].width, @$realtime_canvas[0].height)
+    @allClear(@$realtime_canvas)
     @realtime_ctx.lineTo(x, y)
     @realtime_ctx.stroke()
 
     @mutable_ctx.lineTo(x, y)
 
   endFreeHand: () ->
-    @realtime_ctx.clearRect(0, 0, @$realtime_canvas[0].width, @$realtime_canvas[0].height)
+    @allClear(@$realtime_canvas)
     @mutable_ctx.stroke()
 
     @realtime_ctx.restore()
 
     @onDrawEnd(@$mutable_canvas)
+
+  allClear: ($canvas) ->
+    canvas = $canvas[0]
+    ctx = canvas.getContext("2d")
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
 
   ###
     Configure Canvas
