@@ -40,9 +40,9 @@ class EasyCanvas
     @setLineCap("round")
 
     @$listener = $("<div class='ec-listener'></div>")
-    .mousedown(@beginDrag)
-    .mousemove(@moveDrag)
-    .mouseup(@endDrag)
+    .bind("mousedown touchstart", @beginDrag)
+    .bind("mousemove touchmove", @moveDrag)
+    .bind("mouseup touchend", @endDrag)
     .appendTo(@$container)
 
   ###
@@ -53,19 +53,19 @@ class EasyCanvas
     return if @dragging
 
     @dragging = true
-
-    canvas_rect = e.target.getBoundingClientRect()
-    mouse_x = e.clientX - canvas_rect.left
-    mouse_y = e.clientY - canvas_rect.top
+    rect = e.target.getBoundingClientRect()
+    mouse_x = (if e.originalEvent.touches then e.originalEvent.touches[0].clientX else e.clientX) - rect.left
+    mouse_y = (if e.originalEvent.touches then e.originalEvent.touches[0].clientY else e.clientY) - rect.top
 
     @beginFreeHand(mouse_x, mouse_y)
 
   moveDrag: (e) =>
+    e.preventDefault()
     return if !@dragging
 
-    canvas_rect = e.target.getBoundingClientRect()
-    mouse_x = e.clientX - canvas_rect.left
-    mouse_y = e.clientY - canvas_rect.top
+    rect = e.target.getBoundingClientRect()
+    mouse_x = (if e.originalEvent.touches then e.originalEvent.touches[0].clientX else e.clientX) - rect.left
+    mouse_y = (if e.originalEvent.touches then e.originalEvent.touches[0].clientY else e.clientY) - rect.top
 
     @moveFreeHand(mouse_x, mouse_y)
 
