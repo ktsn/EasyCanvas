@@ -52,6 +52,15 @@ class EasyCanvas
     .bind("mouseup touchend", @endDrag)
     .appendTo(@$container)
 
+  setDataURL: (data) ->
+    image = new Image()
+    image.src = data
+
+    image.onload = () =>
+      canvas = @$mutable_canvas[0]
+      @clearDrawing()
+      @mutable_ctx.drawImage(image, 0, 0, canvas.width, canvas.height)
+
   ###
     Canvas Listener
   ###
