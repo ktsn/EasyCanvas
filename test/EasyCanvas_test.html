@@ -10,6 +10,8 @@
             easy_canvas.setStrokeColor("#ff0000");
             easy_canvas.setLineWidth(5);
 
+            var image = null;
+
             $("#draw").click(function(e) {
                 easy_canvas.changeDrawMode(EasyCanvasDrawMode.FreeHand)
             });
@@ -22,6 +24,15 @@
             $("#control").click(function(e) {
                 easy_canvas.changeDrawMode(EasyCanvasDrawMode.Disabled)
             });
+            $("#save-jpeg").click(function(e) {
+                image = easy_canvas.getJpegDataURL();
+            });
+            $("#save-png").click(function(e) {
+                image = easy_canvas.getPngDataURL();
+            });
+            $("#load").click(function(e) {
+                easy_canvas.setDataURL(image);
+            });
         });
     </script>
     <title>EasyCanvas Test</title>
@@ -31,6 +42,9 @@
 <button id="erase">Erase</button>
 <button id="clear">Clear</button>
 <button id="control">Control</button>
+<button id="save-jpeg">Save Jpeg</button>
+<button id="save-png">Save PNG</button>
+<button id="load">Load</button>
 <div id="test-wrapper">
     Canvas is a heavy-duty fabric.<br>
     Canvas may also refer to:<br>

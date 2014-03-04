@@ -52,6 +52,12 @@ class EasyCanvas
     .bind("mouseup touchend", @endDrag)
     .appendTo(@$container)
 
+  getJpegDataURL: () ->
+    return @$mutable_canvas[0].toDataURL("image/jpeg")
+
+  getPngDataURL: () ->
+    return @$mutable_canvas[0].toDataURL("image/png")
+
   setDataURL: (data) ->
     image = new Image()
     image.src = data
